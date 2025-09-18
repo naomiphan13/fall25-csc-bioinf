@@ -4,14 +4,14 @@ import sys
 
 if __name__ == "__main__":
     argv = sys.argv
-    short1, short2, long1 = read_data("./" + argv[1])
+    short1, short2, long1 = read_data( argv[1])
 
     k = 25
     dbg = DBG(k=k, data_list=[short1, short2, long1])
 
     contigs = []
     # dbg.show_count_distribution()
-    with open('./' + argv[1] + '/contig.fasta', 'w') as f:
+    with open(argv[1] + '/contig.fasta', 'w') as f:
         for i in range(20):
             c = dbg.get_longest_contig()
             if c is None:
