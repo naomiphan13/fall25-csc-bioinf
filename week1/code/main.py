@@ -1,4 +1,4 @@
-from dbg import DBG
+from .dbg import DBG
 from utils import read_data, n50
 import sys
 import os
