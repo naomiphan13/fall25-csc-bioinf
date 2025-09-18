@@ -16,7 +16,7 @@ for dataset in data{1..4}; do
     runtime_fmt=$(date -ud "@$runtime" +'%H:%M:%S')
 
     n50=$(echo "$result"| awk '{print $2}')
-    echo -e "${dataset}\tPython\t${runtime_fmt}\t${n50}"    start=$(date +%s)
+    echo -e "${dataset}\tPython\t${runtime_fmt}\t${n50}"
 
     # Run Codon Script
     start=$(date +%s)
