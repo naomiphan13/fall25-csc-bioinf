@@ -10,7 +10,7 @@ for dataset in data{1..4}; do
 
     # Run Python Script
     start=$(date +%s)
-    result=$(python3 "${DIR}/main.py" "${DIR}/${dataset}")
+    result=$(python3 "${DIR}/code/main.py" "${DIR}/${dataset}")
     end=$(date +%s)
     runtime=$((end - start))
     runtime_fmt=$(date -ud "@$runtime" +'%H:%M:%S')
@@ -20,7 +20,7 @@ for dataset in data{1..4}; do
 
     # Run Codon Script
     start=$(date +%s)
-    result=$(codon run -release "main_codon.py" "/${dataset}")
+    result=$(codon run -release "${DIR}/code/main_codon.py" "${DIR}/${dataset}")
     end=$(date +%s)
     runtime=$((end - start))
     runtime_fmt=$(date -ud "@$runtime" +'%H:%M:%S')
