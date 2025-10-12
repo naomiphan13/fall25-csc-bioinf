@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DIR="$(cd "$(dirname "$0")" && pwd)"
+cd "$DIR"
 
 python_result="$(
   python3 "${DIR}/Python/test_phylo.py" \
