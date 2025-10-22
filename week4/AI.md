@@ -7,3 +7,4 @@
 4. How to initialize the DP matrices for affine alignment with different gap opening and gap extension penalties?
 5. Why my WSL shut down while running the script?
 6. How can I modify my evaluate.sh file to optimize WSL configurations and ensure that WSL has enough memory?
+7. How to resolve the out-of-memory error on CI?
