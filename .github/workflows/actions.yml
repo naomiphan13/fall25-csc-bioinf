@@ -37,5 +37,14 @@ jobs:
         run: |
           python -m pip install -U pip
           pip install biotite
+      - name: Add 16GB swap
+        run: |
+          sudo swapoff -a || true
+          sudo rm -f /swapfile || true
+          sudo fallocate -l 16G /swapfile || sudo dd if=/dev/zero of=/swapfile bs=1M count=16384
+          sudo chmod 600 /swapfile
+          sudo mkswap /swapfile
+          sudo swapon /swapfile
+          free -h
       - name: Week 4
         run: bash week4/code/evaluate.sh
