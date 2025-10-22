@@ -2,10 +2,9 @@
 set -euo pipefail
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$DIR"
 
-# Table header (as in your screenshot)
 printf "Method\t\t\tLanguage\tRuntime\n"
 
-# Unbuffered Python so lines flush immediately
-python3 -u main.py "$@"
-codon run -release main_codon.py "$@"
+python3 -u "${DIR}main.py "$@""
+codon run -release "${DIR}/main_codon.py "$@""
