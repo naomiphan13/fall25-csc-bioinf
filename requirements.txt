@@ -1,4 +1,5 @@
-matplotlib
-pytest
-numpy
-
+ipython==8.20.0
+jupyter
+nbconvert>=7
+nbclient
+ipykernel
