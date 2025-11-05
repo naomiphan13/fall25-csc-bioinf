@@ -32,6 +32,7 @@ jobs:
 
           git clone --depth 1 https://github.com/samtools/htslib.git
           cd htslib
+          git submodule update --init --recursive
           autoreconf -i
           ./configure
           make -j"$(nproc)"
