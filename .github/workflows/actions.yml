@@ -51,11 +51,11 @@ jobs:
           git submodule update --init --recursive
           autoreconf -i
           ./configure
-          make -j"$(nproc)"
+          make
           cd ..
 
-          export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$(pwd)/htslib"
-          make -j"$(nproc)"
+          export LD_LIBRARY_PATH="$(pwd)/htslib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+          make
 
           echo "LD_LIBRARY_PATH=$LD_LIBRARY_PATH" >> $GITHUB_ENV
           echo "$HOME/HapCUT2/build" >> $GITHUB_PATH
