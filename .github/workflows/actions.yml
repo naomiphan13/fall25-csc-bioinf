@@ -68,6 +68,9 @@ jobs:
           rm -f "IGV_${IGV_VER}.zip"
           chmod +x "$HOME/IGV_${IGV_VER}/igv.sh" || true
 
+      - name: Install Xvfb
+        run: sudo apt-get update && sudo apt-get install -y xvfb
+
       - name: Week 5
         run: |
           micromamba run -n bio jupyter nbconvert --to notebook --execute week5/week5.ipynb
