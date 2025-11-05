@@ -24,6 +24,17 @@ jobs:
           sudo mv "minimap2-${MINIMAP2_VER}_x64-linux/minimap2" /usr/local/bin/
           minimap2 --version
 
+      - name: Install micromamba
+        run: |
+          curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xvj -C ~ bin/micromamba
+          echo "$HOME/bin" >> $GITHUB_PATH
+
+      - name: Create bio env (samtools + bcftools)
+        run: |
+         eval "$($HOME/bin/micromamba shell hook -s bash)"
+         micromamba create -y -p "$HOME/micromamba/envs/bio" -c conda-forge -c bioconda samtools=1.22.1 bcftools=1.22
+         echo "MICROMAMBA_ENV=$HOME/micromamba/envs/bio" >> $GITHUB_ENV
+
       - name: Install HapCUT2 and htslib
         run: |
           mkdir -p ${HOME}/HapCUT2
