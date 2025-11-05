@@ -1,5 +1,10 @@
 name: Github CI
 on: [push]
+
+defaults:
+  run:
+    shell: bash -l {0}
+    
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -7,7 +12,17 @@ jobs:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-
+      - uses: actions/checkout@v5
+      
+      - uses: mamba-org/setup-micromamba@v1
+        with:
+          micromamba-version: latest
+          environment-name: bio
+          cache-environment: true
+          create-args: >
+            -c conda-forge -c bioconda
+            samtools=1.22.1 bcftools=1.22 jupyter nbconvert
+            
       - name: Install system build tools
         run: |
           sudo apt-get update
@@ -24,20 +39,10 @@ jobs:
           sudo mv "minimap2-${MINIMAP2_VER}_x64-linux/minimap2" /usr/local/bin/
           minimap2 --version
 
-      - name: Install micromamba
-        run: |
-          curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xvj -C ~ bin/micromamba
-          echo "$HOME/bin" >> $GITHUB_PATH
-
-      - name: Create bio env (samtools + bcftools)
-        run: |
-         eval "$($HOME/bin/micromamba shell hook -s bash)"
-         micromamba create -y -p "$HOME/micromamba/envs/bio" -c conda-forge -c bioconda samtools=1.22.1 bcftools=1.22
-         echo "MICROMAMBA_ENV=$HOME/micromamba/envs/bio" >> $GITHUB_ENV
-
       - name: Install HapCUT2 and htslib
         run: |
-          mkdir -p ${HOME}/HapCUT2
+          set -euo pipefail
+          mkdir -p "$HOME/HapCUT2"
           git clone --depth 1 https://github.com/vibansal/HapCUT2.git "$HOME/HapCUT2"
           cd "$HOME/HapCUT2"
 
@@ -63,23 +68,6 @@ jobs:
           rm -f "IGV_${IGV_VER}.zip"
           chmod +x "$HOME/IGV_${IGV_VER}/igv.sh" || true
 
-      - name: Check out repository code
-        uses: actions/checkout@v5
-
-      - name: Set up Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: '3.13'
-
-      - name: Install Python dependencies
-        env:
-          MPLBACKEND: Agg
-          PIP_DISABLE_PIP_VERSION_CHECK: 1
-        run: |
-          python -m pip install -U pip
-          pip install -r requirements.txt
-          pip install jupyter nbclient
-
       - name: Week 5
         run: |
-          jupyter nbconvert --to notebook --execute week5/week5.ipynb
+          micromamba run -n bio jupyter nbconvert --to notebook --execute week5/week5.ipynb
