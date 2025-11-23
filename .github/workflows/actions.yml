@@ -33,6 +33,9 @@ jobs:
           python -m ipykernel install --user --name scrna --display-name "scrna"
 
       - name: Install dependencies
+        env:
+          MPLBACKEND: Agg
+          PIP_DISABLE_PIP_VERSION_CHECK: 1
         run: |
           conda install -y -c conda-forge -c bioconda \
             alevin-fry \
@@ -41,9 +44,13 @@ jobs:
             python-igraph \
             scanpy
 
+          python -m pip install -U pip
+
+          pip install -r requirements.txt
           pip install leidenalg
           pip install mygene
           pip install celltypist
+          pip install jupyter nbclient
 
       - name: Install Xvfb
         run: |
