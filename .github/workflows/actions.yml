@@ -26,6 +26,12 @@ jobs:
           channel-priority: strict
           activate-environment: scrna
 
+      - name: Install Jupyter kernel in scrna envs
+        shell: bash -l {0}
+        run: |
+          conda install -y ipykernel
+          python -m ipykernel install --user --name scrna --display-name "scrna"
+
       - name: Install dependencies
         run: |
           conda install -y -c conda-forge -c bioconda \
