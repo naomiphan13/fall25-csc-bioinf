@@ -44,14 +44,6 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y xvfb
 
-      - name: Download toy_read_ref_set.tar.gz
-        run: |
-          SHARE_URL="https://app.box.com/s/lx2xownlrhz3us8496tyu9c4dgade814"
-          HTML=$(curl -L -s "$SHARE_URL")
-          DIRECT_URL=$(echo "$HTML" | grep -o 'https://public.boxcloud.com/api/2.0/files/[0-9]\+/content[^"]*' | head -n 1)
-          echo "Direct download URL: $DIRECT_URL"
-          curl -L "$DIRECT_URL" -o week6/toy_read_ref_set.tar.gz
-          
       - name: Week 6
         run: |
           conda run -n scrna jupyter nbconvert --to notebook --execute week6/week6.ipynb
