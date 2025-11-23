@@ -46,7 +46,11 @@ jobs:
 
       - name: Download toy_read_ref_set.tar.gz
         run: |
-          curl -L "sandbox:/mnt/data/toy_read_ref_set.tar.gz" -o toy_read_ref_set.tar.gz
+          SHARE_URL="https://app.box.com/s/lx2xownlrhz3us8496tyu9c4dgade814"
+          HTML=$(curl -L -s "$SHARE_URL")
+          DIRECT_URL=$(echo "$HTML" | grep -o 'https://public.boxcloud.com/api/2.0/files/[0-9]\+/content[^"]*' | head -n 1)
+          echo "Direct download URL: $DIRECT_URL"
+          curl -L "$DIRECT_URL" -o week6/toy_read_ref_set.tar.gz
           
       - name: Week 6
         run: |
